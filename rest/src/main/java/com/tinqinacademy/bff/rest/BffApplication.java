@@ -3,7 +3,7 @@ package com.tinqinacademy.bff.rest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = {"com.tinqinacademy.authentication"})
+@SpringBootApplication(scanBasePackages = {"com.tinqinacademy.bff"})
 public class BffApplication {
 
     public static void main(String[] args) {
