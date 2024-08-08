@@ -1,8 +1,8 @@
 package com.tinqinacademy.bff.api.base;
 
-import com.tinqinacademy.bff.api.errors.ErrorOutput;
+import com.tinqinacademy.bff.api.errors.ErrorWrapper;
 import io.vavr.control.Either;
 
-public interface OperationProcessor<S extends OperationInput, T extends OperationOutput> {
-    Either<ErrorOutput, T> process(S input);
+public interface OperationProcessor<S extends OperationRequest, T extends OperationResponse> {
+    Either<ErrorWrapper, T> process(S input);
 }

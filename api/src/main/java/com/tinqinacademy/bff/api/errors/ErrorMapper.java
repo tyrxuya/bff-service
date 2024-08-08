@@ -13,9 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 @Component
 public class ErrorMapper {
-    private final ErrorOutput errorOutput;
+    private final ErrorWrapper errorOutput;
 
-    public <T extends Throwable> ErrorOutput map(T throwable, HttpStatus httpStatus) {
+    public <T extends Throwable> ErrorWrapper map(T throwable, HttpStatus httpStatus) {
         errorOutput.setErrors(List.of(Error.builder()
                 .message(throwable.getMessage())
                 .build()));

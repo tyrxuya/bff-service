@@ -10,6 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class InvalidInputException extends RuntimeException {
+public class InvalidRequestException extends RuntimeException {
     private final List<Error> errors;
 }
