@@ -1,10 +1,10 @@
 package com.tinqinacademy.bff.core.operations;
 
-import com.tinqinacademy.bff.api.base.OperationInput;
+import com.tinqinacademy.bff.api.base.OperationRequest;
 import com.tinqinacademy.bff.api.errors.Error;
 import com.tinqinacademy.bff.api.errors.ErrorMapper;
-import com.tinqinacademy.bff.api.errors.ErrorOutput;
-import com.tinqinacademy.bff.api.exceptions.InvalidInputException;
+import com.tinqinacademy.bff.api.errors.ErrorWrapper;
+import com.tinqinacademy.bff.api.exceptions.InvalidRequestException;
 import io.vavr.API;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
@@ -29,8 +29,8 @@ public abstract class BaseOperation {
     protected final ConversionService conversionService;
     protected final ErrorMapper errorMapper;
 
-    public <T extends OperationInput> void validate(T input) {
-        Set<ConstraintViolation<OperationInput>> violations = validator.validate(input);
+    public <T extends OperationRequest> void validate(T input) {
+        Set<ConstraintViolation<OperationRequest>> violations = validator.validate(input);
 
         if (!violations.isEmpty()) {
             List<Error> errors = new ArrayList<>();
@@ -42,26 +42,26 @@ public abstract class BaseOperation {
                             .build())
             );
 
-            throw new InvalidInputException(errors);
+            throw new InvalidRequestException(errors);
         }
     }
 
-    protected API.Match.Case<? extends Exception, ErrorOutput> customCase(Throwable cause,
-                                                                          HttpStatus status,
-                                                                          Class<? extends Exception> exceptionClass) {
+    protected API.Match.Case<? extends Exception, ErrorWrapper> customCase(Throwable cause,
+                                                                           HttpStatus status,
+                                                                           Class<? extends Exception> exceptionClass) {
         return API.Case($(instanceOf(exceptionClass)), errorMapper.map(cause, status));
     }
 
-    protected API.Match.Case<? extends Exception, ErrorOutput> defaultCase(Throwable cause,
-                                                                           HttpStatus status) {
+    protected API.Match.Case<? extends Exception, ErrorWrapper> defaultCase(Throwable cause,
+                                                                            HttpStatus status) {
         return API.Case($(), errorMapper.map(cause, status));
     }
 
-    protected API.Match.Case<InvalidInputException, ErrorOutput> validateCase(Throwable cause,
-                                                                              HttpStatus status) {
-        List<Error> errors = cause instanceof InvalidInputException ex ? ex.getErrors() : new ArrayList<>();
+    protected API.Match.Case<InvalidRequestException, ErrorWrapper> validateCase(Throwable cause,
+                                                                                 HttpStatus status) {
+        List<Error> errors = cause instanceof InvalidRequestException ex ? ex.getErrors() : new ArrayList<>();
 
-        return API.Case($(instanceOf(InvalidInputException.class)), () -> ErrorOutput.builder()
+        return API.Case($(instanceOf(InvalidRequestException.class)), () -> ErrorWrapper.builder()
                 .errors(errors)
                 .status(status)
                 .build());
