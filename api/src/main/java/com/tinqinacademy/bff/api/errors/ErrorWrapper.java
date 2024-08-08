@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 @Builder
 @Component
-public class ErrorOutput {
+public class ErrorWrapper {
     private List<Error> errors;
     private HttpStatus status;
 }
