@@ -10,4 +10,24 @@
         <version>${revision}</version>
     </parent>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.tinqinacademy.hotel</groupId>
+            <artifactId>restexport</artifactId>
+            <version>${hotel.revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tinqinacademy.comments</groupId>
+            <artifactId>restexport</artifactId>
+            <version>${comments.revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-jackson</artifactId>
+            <version>${feign-jackson.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>
