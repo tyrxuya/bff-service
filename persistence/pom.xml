@@ -10,12 +10,4 @@
         <version>${revision}</version>
     </parent>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.tinqinacademy.bff</groupId>
-            <artifactId>domain</artifactId>
-            <version>${revision}</version>
-        </dependency>
-    </dependencies>
-
 </project>
