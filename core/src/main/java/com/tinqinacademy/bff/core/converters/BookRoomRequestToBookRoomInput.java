@@ -20,7 +20,6 @@ public class BookRoomRequestToBookRoomInput extends AbstractConverter<BookRoomRe
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
                 .phoneNo(source.getPhoneNo())
-                .username(source.getUsername())
                 .build();
 
         return result;
