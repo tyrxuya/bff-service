@@ -1,9 +1,7 @@
 package com.tinqinacademy.bff.api.operations.getregisteredvisitors;
 
 import com.tinqinacademy.bff.api.base.OperationRequest;
-import com.tinqinacademy.hotel.api.operations.hotelvisitor.HotelVisitorInput;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.Valid;
+//import com.tinqinacademy.hotel.api.operations.hotelvisitor.HotelVisitorInput;
 import lombok.*;
 
 @NoArgsConstructor
@@ -13,9 +11,6 @@ import lombok.*;
 @Getter
 @Setter
 public class GetRegisteredVisitorsRequest implements OperationRequest {
-    @Valid
-    private HotelVisitorInput visitor;
-
-    @Schema(example = "100b")
+    private VisitorReport visitor;
     private String roomNo;
 }

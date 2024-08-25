@@ -1,7 +1,8 @@
 package com.tinqinacademy.bff.api.operations.getregisteredvisitors;
 
 import com.tinqinacademy.bff.api.base.OperationResponse;
-import com.tinqinacademy.hotel.api.operations.hotelvisitor.HotelVisitorOutput;
+//import com.tinqinacademy.hotel.api.operations.hotelvisitor.HotelVisitorOutput;
+import com.tinqinacademy.bff.api.operations.hotelvisitor.HotelVisitorResponse;
 import lombok.*;
 
 import java.util.List;
@@ -13,5 +14,5 @@ import java.util.List;
 @Getter
 @Setter
 public class GetRegisteredVisitorsResponse implements OperationResponse {
-    private List<HotelVisitorOutput> hotelVisitors;
+    private List<HotelVisitorResponse> hotelVisitors;
 }

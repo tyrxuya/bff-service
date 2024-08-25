@@ -1,8 +1,5 @@
-package com.tinqinacademy.bff.api.operations.hotelvisitor;
+package com.tinqinacademy.bff.api.operations.getregisteredvisitors;
 
-import com.tinqinacademy.bff.api.base.OperationRequest;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -13,7 +10,7 @@ import java.time.LocalDate;
 @ToString
 @Getter
 @Setter
-public class HotelVisitorRequest implements OperationRequest {
+public class VisitorReport {
     private String firstName;
     private String lastName;
     private String phoneNo;

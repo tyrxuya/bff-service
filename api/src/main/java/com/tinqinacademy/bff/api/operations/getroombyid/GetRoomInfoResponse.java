@@ -1,8 +1,6 @@
 package com.tinqinacademy.bff.api.operations.getroombyid;
 
 import com.tinqinacademy.bff.api.base.OperationResponse;
-import com.tinqinacademy.hotel.persistence.enums.BathroomType;
-import com.tinqinacademy.hotel.persistence.enums.BedSize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -19,7 +17,7 @@ import java.util.UUID;
 @Setter
 public class GetRoomInfoResponse implements OperationResponse {
     @Schema(example = "15")
-    private UUID roomId;
+    private String roomId;
 
     @Schema(example = "15124.15")
     private BigDecimal price;
@@ -28,10 +26,10 @@ public class GetRoomInfoResponse implements OperationResponse {
     private Integer floor;
 
     @Schema(example = "kingSize")
-    private List<BedSize> bedSizes;
+    private List<String> bedSizes;
 
     @Schema(example = "private")
-    private BathroomType bathroomType;
+    private String bathroomType;
 
     @Schema(example = "2")
     private Integer bedCount;
