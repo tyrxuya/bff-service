@@ -30,8 +30,9 @@
 		<revision>0.0.1-SNAPSHOT</revision>
 		<hotel.revision>0.0.1-SNAPSHOT</hotel.revision>
 		<comments.revision>0.0.1-SNAPSHOT</comments.revision>
+		<authentication.revision>0.0.1-SNAPSHOT</authentication.revision>
 		<model.version>4.0.0</model.version>
-		<group.id>com.tinqinacademy</group.id>
+		<group.id>com.tinqinacademy.bff</group.id>
 		<jackson.version>2.17.1</jackson.version>
 		<swagger.version>2.6.0</swagger.version>
 		<flatten.version>1.6.0</flatten.version>
@@ -39,6 +40,7 @@
 		<sbadmin.version>3.3.3</sbadmin.version>
 		<feign-jackson.version>13.3</feign-jackson.version>
 		<openfeign.version>4.1.3</openfeign.version>
+		<jwt.version>0.12.6</jwt.version>
 	</properties>
 
 	<dependencies>
@@ -67,6 +69,10 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 			<version>${openfeign.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 	</dependencies>
 
