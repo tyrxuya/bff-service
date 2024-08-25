@@ -1,20 +1,21 @@
 package com.tinqinacademy.bff.core.operations;
 
+import com.tinqinacademy.authentication.api.operations.getuser.GetUserInput;
+import com.tinqinacademy.authentication.api.operations.getuser.GetUserOutput;
+import com.tinqinacademy.authentication.restexport.AuthenticationClient;
 import com.tinqinacademy.bff.api.errors.ErrorMapper;
 import com.tinqinacademy.bff.api.errors.ErrorWrapper;
 import com.tinqinacademy.bff.api.operations.bookroom.BookRoom;
 import com.tinqinacademy.bff.api.operations.bookroom.BookRoomRequest;
 import com.tinqinacademy.bff.api.operations.bookroom.BookRoomResponse;
-import com.tinqinacademy.hotel.api.errors.ErrorOutput;
 import com.tinqinacademy.hotel.api.operations.bookroom.BookRoomInput;
 import com.tinqinacademy.hotel.api.operations.bookroom.BookRoomOutput;
-import com.tinqinacademy.hotel.restexport.HotelRestExport;
+import com.tinqinacademy.hotel.restexport.HotelClient;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
-import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import static io.vavr.API.Match;
@@ -22,35 +23,51 @@ import static io.vavr.API.Match;
 @Service
 @Slf4j
 public class BookRoomOperation extends BaseOperation implements BookRoom {
-    private final HotelRestExport hotelRestExport;
+    private final HotelClient hotelClient;
+    private final AuthenticationClient authenticationClient;
 
-
-    public BookRoomOperation(Validator validator, ConversionService conversionService, ErrorMapper errorMapper, HotelRestExport hotelRestExport) {
-        super(validator, conversionService, errorMapper);
-        this.hotelRestExport = hotelRestExport;
+    public BookRoomOperation(ConversionService conversionService,
+                             ErrorMapper errorMapper,
+                             HotelClient hotelClient,
+                             AuthenticationClient authenticationClient) {
+        super(conversionService, errorMapper);
+        this.hotelClient = hotelClient;
+        this.authenticationClient = authenticationClient;
     }
 
     @Override
-    public Either<ErrorWrapper, BookRoomResponse> process(BookRoomRequest input) {
+    public Either<ErrorWrapper, BookRoomResponse> process(BookRoomRequest request) {
         return Try.of(() -> {
-                    log.info("start process input: {}", input);
+            log.info("start process input: {}", request);
 
-                    validate(input);
+            String username = SecurityContextHolder.getContext()
+                    .getAuthentication()
+                    .getName();
+            log.info("username: {}", username);
 
-                    BookRoomOutput output = hotelRestExport.bookRoom(input.getRoomId(), conversionService.convert(input, BookRoomInput.class));
+            GetUserInput getUserInput = GetUserInput.builder()
+                    .username(username)
+                    .build();
 
-                    BookRoomResponse result = BookRoomResponse.builder()
-                            .bookingId(output.getBookingId())
-                            .build();
+            GetUserOutput getUserOutput = authenticationClient.getUser(getUserInput);
 
-                    log.info("end process result: {}", result);
+            BookRoomInput input = conversionService.convert(request, BookRoomInput.class);
+            input.setUserId(getUserOutput.getUserId());
 
-                    return result;
-                })
+            BookRoomOutput output = hotelClient.bookRoom(input.getRoomId(), input);
+
+            BookRoomResponse result = BookRoomResponse.builder()
+                    .bookingId(output.getBookingId())
+                    .build();
+
+            log.info("end process result: {}", result);
+
+            return result;
+        })
                 .toEither()
                 .mapLeft(throwable -> Match(throwable).of(
-                        validateCase(throwable, HttpStatus.BAD_REQUEST),
-                        defaultCase(throwable, HttpStatus.I_AM_A_TEAPOT)
+                        //validateCase(throwable, HttpStatus.BAD_REQUEST),
+                        feignCase(throwable)
                 ));
     }
 }

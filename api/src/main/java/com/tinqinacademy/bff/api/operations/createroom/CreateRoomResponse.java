@@ -12,5 +12,5 @@ import java.util.UUID;
 @Getter
 @Setter
 public class CreateRoomResponse implements OperationResponse {
-    private UUID roomId;
+    private String roomId;
 }

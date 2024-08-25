@@ -13,27 +13,27 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class HotelVisitorResponse implements OperationResponse {
-    @Schema(example = "2022-05-22")
-    private LocalDate startDate;
-
-    @Schema(example = "2022-05-25")
-    private LocalDate endDate;
-
     @Schema(example = "vanio")
     private String firstName;
 
     @Schema(example = "georgiev")
     private String lastName;
 
-    @Schema(example = "+359889272828")
+    @Schema(example = "0889252012")
     private String phoneNo;
 
-    @Schema(example = "0349888888")
-    private String idNo;
+    @Schema(example = "2003-09-22")
+    private LocalDate birthday;
+
+    @Schema(example = "0349228888")
+    private String civilNumber;
 
     @Schema(example = "mvr varna")
     private String idIssueAuthority;
 
     @Schema(example = "2015-05-22")
     private LocalDate idIssueDate;
+
+    @Schema(example = "2027-12-12")
+    private LocalDate idValidity;
 }
